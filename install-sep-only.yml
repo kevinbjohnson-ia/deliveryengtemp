@@ -1,0 +1,27 @@
+##################################################
+## Install SEP endpoint Protection (Windows Host)
+##################################################
+
+   - name: "SEP INSTALL: Ensure Target Directory Exists"
+     win_file:
+       path: C:\Support\SEP\
+       state: directory
+
+   - name: "SEP INSTALL: Download install file from storage account"
+     win_get_url:
+       url: https://cc01blrsglbesspr001.blob.core.windows.net/sepdscpackages/SEP_Jul4-2019-x64-NoReboot.zip
+       dest: C:\Support\SEP\SEP_Jul4-2019-x64-NoReboot.zip
+       force: no
+
+   - name: "SEP INSTALL: Unzip the installation package"
+     win_unzip:
+       src: C:\Support\SEP\SEP_Jul4-2019-x64-NoReboot.zip
+       dest: C:\Support\SEP\
+       delete_archive: no
+
+   - name: "SEP INSTALL: Install Package"
+     win_package:
+       path: C:\Support\SEP\SEP_Jul4-2019-x64-NoReboot.exe
+       product_id: 'ECC5E55A-D73D-47A3-A183-37B60F6B05A6'
+       arguments:
+       state: present
